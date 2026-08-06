@@ -26,7 +26,7 @@ git remote add origin https://github.com/Grred1/More-JD-More-Offer.git
 
 > 说明：本项目只作为底子自用，不需要同步上游更新，因此不加 upstream。
 
-### 2. 初始化环境变量与账号
+### 2. 初始化环境变量与账号 ✅ 已完成
 
 ```bash
 cp .env.example .env
@@ -45,7 +45,7 @@ cp .env.example .env
   git push -u origin main
   ```
 
-### 4. 设置项目级 git 身份（避免真实邮箱进提交记录）
+### 4. 设置项目级 git 身份 ✅ 已完成（Grred1 / GitHub noreply 邮箱）
 
 ```bash
 git config user.name "你的昵称"
