@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   User, BookOpen, GitFork, Clock, Mic, BriefcaseBusiness, Brain,
-  Target, FileText, FileUser, Settings as SettingsIcon,
+  Target, FileText, FileUser, Settings as SettingsIcon, Database,
   Sun, Moon, LogOut, Menu, X, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import useAuth from "../hooks/useAuth";
@@ -22,6 +22,7 @@ const NAV_ITEMS = [
   { path: "/topic-drill", label: "专项训练", icon: Target },
   { path: "/resume-interview", label: "简历面试", icon: FileText },
   { path: "/resume-manager", label: "简历管理", icon: FileUser },
+  { path: "/assets", label: "经历资产", icon: Database },
   { path: "/job-prep", label: "JD 备面", icon: BriefcaseBusiness },
   { path: "/recording", label: "录音复盘", icon: Mic },
   { path: "/copilot", label: "面试 Copilot", icon: Brain },

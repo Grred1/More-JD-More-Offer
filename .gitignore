@@ -5,6 +5,9 @@
 __pycache__/
 *.pyc
 VoiceWings-master/
+# 虚拟环境
+.venv/
+venv/
 
 # Node(任意层级)
 node_modules/
