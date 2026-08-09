@@ -1,11 +1,11 @@
 <div align="center">
 
-<img src="images/logo.png" alt="TechSpar" width="520" />
+<img src="images/techspar-horizontal-logo.svg" alt="More-JD-More-Offer" width="520" />
 
 
-**Connect focused drills, resume interviews, JD-based prep, realtime Copilot, and recording review into one continuously improving technical interview loop.**
+**Turn your experience asset library and JD matching into a "JD in → Resume out" job-hunting workflow.**
 
-[Online Demo](https://techspar.top/) · [Quick Start](#quick-start) · [Chinese](README.md)
+[GitHub](https://github.com/Grred1/More-JD-More-Offer) · [Quick Start](#quick-start) · [Chinese](README.md)
 
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
@@ -18,62 +18,76 @@
 ![TechSpar product overview](images/techspar-overview.png)
 </div>
 
-> TechSpar is not centered on one isolated feature page.  
-> Its core is a shared mechanism for long-term memory, profile updates, and next-round training scheduling.
-> Focused drills, resume interviews, JD-based prep, realtime Copilot, and recording review are not five disconnected pages. They work together around the same long-term memory, mastery, and profile system.
+> More-JD-More-Offer is a TechSpar fork: upgraded from an "interview training tool" to a "job-hunting workflow".
+> Core idea: **a resume is the "query result" of your structured experience data.**
+> Each experience is first distilled into a structured asset (raw memory + polished resume snippet), then re-composed into a customized resume for a given JD.
 
 ---
 
-## Not Just Another Question Set
+## Core Data Flow
 
-Most AI interview tools do not fail because they have too few questions. They fail because they have **no feedback loop**.
+```
+Experience Assets (RAG) ──search──> JD Matching / Gap Analysis ──recompose──> Custom / Master Resume ──> Apply
+      ▲                              │                                     │
+      └──── write back new experience ┘                                     └── multi-template render → PDF
+```
 
-You may answer poorly today, and the system may know it.  
-But tomorrow, it starts again as if it has never met you.
+---
 
-TechSpar is not built to "generate more questions." It connects practice, mock interviews, real interview assistance, and review into a continuously improving path:
+## Experience Asset Library: The Foundation
 
-| Traditional interview tools | TechSpar |
+Each experience is an **asset** with two views:
+
+- **raw_memory**: plain-language summary, append-only ("think of it, add it")
+- **resume_snippet**: polished application-ready text, **HTML rich text** (bold `<b>`, underline `<u>`, bullet points `<ul>`)
+
+Six asset types:
+
+| Type | Contents |
 | --- | --- |
-| Fragmented scenarios: question practice, mock interviews, and review are separate | Focused drills, resume interviews, JD-based prep, realtime Copilot, and recording review share one profile and long-term memory system |
-| Every session starts like the first session | Before each new round, TechSpar reads historical mastery, weak spots, training traces, and context |
-| Practice results stay inside the current session | Results are written back into the profile, mastery records, weak spots, and review schedule |
-| Hard to connect preparation with real interviews | Prep, mock practice, realtime assistance, and review form one continuous chain |
-| Feedback only helps this one attempt | Every piece of feedback changes the focus of the next round |
-| Usually covers only one interview stage | Covers focused drills, resume interviews, JD-based prep, realtime Copilot, and recording review |
-| Ends after use | Training -> evaluation -> profile update -> more precise next round, forming an evolving loop |
+| Internship | company / position / period / bullet points (bold & underline) |
+| Project | project name / role / period / bullet points |
+| Research | paper title / venue / bullet points |
+| Award | award name / issuer / period |
+| Education | school / major / degree / period (dedicated fields) |
+| Highlights | skills / self-evaluation |
 
-> **TechSpar does not help you "do one round of questions." It helps you build a full technical interview loop from preparation to review, from one training session to long-term improvement.**
+### Import Channels (manual review before saving)
 
----
+| Channel | How |
+| --- | --- |
+| **Resume PDF** | PyMuPDF extraction (fixes CJK garbling) → low-temp LLM structuring → review & check |
+| **Free text** | paste notes / spoken memories, LLM splits into candidate assets → review & save |
+| **External docs** | one-off deterministic parsing (LaTeX / Markdown resume library), rich-text faithful |
 
-## Why The Question Bank Is Core
+### Backup Export
 
-Many people understand a "question bank" as a fixed list of stored questions. That is not what TechSpar means.
-
-In TechSpar, the question bank is a **dynamic question-generation foundation**, not a static list that stores old questions for repeated drilling.
-
-- **Core knowledge base**: defines the knowledge boundaries for a domain and provides semantic reference for question generation and scoring
-- **High-frequency question bank**: marks topics that appear more often in real interviews and deserve higher priority
-- **Historical training records**: tracks what you recently practiced, which answers were weak, and which gaps still need work
-- **Long-term profile and mastery**: decides whether this round should continue fixing weak spots or expand toward harder and broader areas
-
-The final questions are not simply "drawn from the bank." They are **generated dynamically for the current round** after the system combines all these signals.
-
-In other words:
-
-- Traditional question-bank products: start with a fixed batch of questions, then ask you to answer them
-- TechSpar: first decides what you most need to practice now, then generates the most suitable questions for this round
-
-That is why the question bank is not a side feature here. It is core infrastructure for the whole loop.
+One click exports all assets to a Markdown file (grouped by type) for local archival.
 
 ---
 
-## Online Demo
+## Not Another Question Set
 
-Try it directly: **[https://techspar.top/](https://techspar.top/)**
+Most AI interview tools fail because they have **no feedback loop**: answer badly today, come back tomorrow, it treats you as a first-time user.
 
-**Register your own account** on the login page to start — each account's data is isolated. On first login a two-step wizard asks for **your own** LLM and Embedding API keys (the demo shares no keys, and never uses anyone else's).
+More-JD-More-Offer's asset library distills scattered experiences, spoken memories, and resume versions into one structured dataset, so JD matching, gap analysis, and resume generation all build on the **same long-lived asset base** — never starting from zero.
+
+---
+
+## Who Is This For
+
+- People preparing for backend / algorithm / AI application / Agent / RAG interviews
+- People whose experiences are scattered (resumes / notes / memories) and want one unified asset library
+- People who want to quickly tailor a resume per JD instead of manually reordering each time
+- People who want to track their growth long-term, not one-shot Q&A
+
+---
+
+## Quick Start
+
+### 1. Configure environment variables
+
+See [Quick Start](#quick-start) for local setup.
 
 > No keys? You can run it for free: ModelScope `ZhipuAI/GLM-5` for the main LLM, SiliconFlow `BAAI/bge-large-zh-v1.5` for embedding — both offer free quota.
 >
