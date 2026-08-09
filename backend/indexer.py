@@ -71,6 +71,19 @@ def get_topic_map(user_id: str) -> dict[str, str]:
 # ── Document loading ──
 
 def _read_pdf(path: Path) -> str:
+    """Extract text from a PDF. PyMuPDF first (correctly decodes CJK CID fonts
+    that pypdf garbles — Type0/Identity-H without ToUnicode), pypdf as fallback."""
+    try:
+        import pymupdf  # noqa: PLC0415 - optional dep, imported lazily
+
+        doc = pymupdf.open(str(path))
+        try:
+            return "\n".join(page.get_text() for page in doc)
+        finally:
+            doc.close()
+    except Exception:  # noqa: BLE001 - pymupdf missing/corrupt → try pypdf
+        pass
+
     from pypdf import PdfReader
 
     try:

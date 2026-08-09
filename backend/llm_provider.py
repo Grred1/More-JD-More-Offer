@@ -29,6 +29,7 @@ _embedding_cache: dict[str, tuple[str, object]] = {}
 
 _DEFAULT_TEMPERATURE = 0.7
 _COPILOT_TEMPERATURE = 0.3  # Copilot 场景偏确定性
+_PARSE_TEMPERATURE = 0.1  # 结构化解析(简历/文本抽取)用低温度,保证输出稳定
 
 
 class ProviderNotConfigured(RuntimeError):
@@ -133,6 +134,22 @@ def get_copilot_llm(user_id: str | None = None, streaming: bool = False):
         base_url=c["api_base"],
         temperature=_COPILOT_TEMPERATURE,
         streaming=streaming,
+    )
+
+
+def get_parse_llm(user_id: str | None = None):
+    """结构化解析专用 LLM（简历/文本段抽取）：低温度，保证 JSON 输出稳定。
+
+    与主 LLM 同一模型，但温度固定 0.1，避免对话温度(0.7)导致解析时编造/串位。
+    """
+    c = resolve_llm_config(user_id)
+    _require_llm(c)
+    return ChatOpenAI(
+        model=c["model"],
+        api_key=c["api_key"],
+        base_url=c["api_base"],
+        temperature=_PARSE_TEMPERATURE,
+        streaming=False,
     )
 
 

@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from backend.llm_provider import ProviderNotConfigured
 from backend.user_context import CurrentUserMiddleware
 from backend.routers import (
+    assets,
     auth,
     copilot,
     data_migration,
@@ -57,6 +58,7 @@ def create_app() -> FastAPI:
         )
 
     app.include_router(auth.router)
+    app.include_router(assets.router)
     app.include_router(resume.router)
     app.include_router(recording.router)
     app.include_router(topics.router)
